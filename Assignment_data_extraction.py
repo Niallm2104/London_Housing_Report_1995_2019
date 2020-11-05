@@ -62,6 +62,7 @@ list_count = 0
 list_value_holder = []
 index_value_holder = []
 
+
 """Find null values which in these lists are represented by empty strings and None values
    replace these with    .    for ease of processing and any actual missing values will be revealed
    giving their list and index. We can save these indexes for further processing"""
@@ -80,7 +81,7 @@ for each in lists_with_numeric_values:
                 
                 
         except ValueError:
-            print(f"List {lists_with_numeric_values_names[list_count]} contains a non numeric, non null value at index {count}")
+            #print(f"List {lists_with_numeric_values_names[list_count]} contains a non numeric, non null value at index {count}")
             list_value_holder.append(list_count)
             index_value_holder.append(count)
             count+=1
@@ -134,7 +135,6 @@ for each in index_value_holder:
             except:
                 year_after.append(0)
         except IndexError:
-            print("Out of range")
             year_after.append(0)
 
 #Creating averages
@@ -163,7 +163,53 @@ for each in index_value_holder:
         count+=1
         corrected_count+=1
 
+#Find monthly areas of London
+#Area code goes from E09000001 - 33 for london areas the other codes begin with E12 or something else
 
+monthly_areas_of_london = []
+monthly_areas_of_england = []
+yearly_areas_of_England = []
+count = 0
+yorks = "yorks and the humber" #an awkward area with two similiar names
+for each in area:
+    if area[count] == yorks:
+        area[count] = "yorkshire and the humber" 
+    count+=1
+count= 0
+for each in area:      
+    if float(code[count][2]) == 9 and float(code[count][-2:]) < 34 and each not in monthly_areas_of_london:
+        monthly_areas_of_london.append(each) 
+    elif count < 100 and each not in monthly_areas_of_england and each not in monthly_areas_of_london:
+        monthly_areas_of_england.append(each)
+    count+=1
+
+#where area names have been slightly different
+count=0   
+for each in area:
+    if float(code[count][2]) == 9 and float(code[count][-2:]) < 34:
+        if code[count] == "E090000" + code[count][-2:]:
+           area[count] = monthly_areas_of_london[int(code[count][-2:]) -1]
+    count+=1
+
+count = 0
+for each in area:
+    if each not in monthly_areas_of_england and each not in monthly_areas_of_london and each not in yearly_areas_of_England:
+        yearly_areas_of_England.append(each)
+   
+    
+#Now that the data is extracted cleaned and seperated we can start to work with it and we can
+#start to bring in some interactive statements
+
+#yearly or monthly,# what variable,# London city, england as a whole or the UK
+#one area or all areas
+#data available for monthly is
+
+
+
+
+
+
+    
             
 
 # =============================================================================
