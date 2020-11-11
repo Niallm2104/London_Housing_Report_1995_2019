@@ -18,6 +18,7 @@ Tasks: Data extraction
     Due to the mix of data there is a lot of missing values where certain groups do not have data for said variables, this must also be 
     dealt with.
 """
+from math import sqrt
 
 date = []
 area = []
@@ -204,7 +205,145 @@ for each in area:
 #one area or all areas
 #data available for monthly is
 
+#Here i will perform some statistical analysis on a variable
+#Will need to use for statement to only include appropriate area names that have values for average house price
 
+#finding appropriate indexs for each
+index_containing_monthly_areas_of_london = []
+count = 0
+for each in area:
+    if each in monthly_areas_of_london and average_price[count] != ".":
+        index_containing_monthly_areas_of_london.append(count)
+    count+=1
+
+#Variables needed for statistical analysis
+temp_1 = 0
+temp_2 = 0
+temp_list = []
+temp_list_2 = []
+mean = 0
+maximum = 0 
+minimum = 0
+median = 0
+mode = 0 
+std_dev = 0
+date_var_for_max = 0
+mode_list =[]
+
+#Mean
+for each in index_containing_monthly_areas_of_london:
+            temp_1 += float(average_price[each])
+            mean = (temp_1/len(index_containing_monthly_areas_of_london))
+mean = round(mean, 2)
+
+#Maximum
+temp_1 = 0
+for each in index_containing_monthly_areas_of_london:
+            if average_price[each] > temp_1:
+                temp_1 = maximum = average_price[each]
+                date_var_for_max = each
+maximum = round(maximum, 2)
+
+#Minimum
+temp_1 = 10000000
+for each in index_containing_monthly_areas_of_london:
+    if average_price[each] < temp_1:
+        temp_1 = minimum = average_price[each]
+        date_var_for_min = each
+minimum = round(minimum, 2)
+
+#Mode
+for each in index_containing_monthly_areas_of_london:
+            if average_price[each] not in temp_list:
+                temp_list.append(average_price[each])
+                mode_list.append(int(1))
+            else:
+                temp_1 = average_price[each]
+                index = temp_list.index(temp_1)
+                mode_list[index] += 1
+            max_value = max(mode_list)
+            max_index = mode_list.index(max_value)
+            mode = temp_list[max_index]
+mode = round(mode, 2)
+
+#Median
+temp_1 = 0
+temp_2 = 0
+temp_list = []
+temp_list_2 = []
+for each in index_containing_monthly_areas_of_london:
+    temp_list.append(average_price[each])
+temp_list.sort()
+median = temp_list[int(round((len(temp_list))/2))]
+
+#Standard deviation
+temp_1 = 0
+temp_2 = 0
+temp_list = []
+temp_list_2 = []
+for each in index_containing_monthly_areas_of_london:
+    temp_list.append(average_price[each])
+for each in index_containing_monthly_areas_of_london:
+    temp_1 += float(average_price[each])
+    temp_2 = (temp_1/len(index_containing_monthly_areas_of_london))
+deviations = [ ( x - temp_2) ** 2 for x in temp_list]
+std_dev = sqrt(sum(deviations)/(len(temp_list) - 1))
+std_dev = round(std_dev, 2)
+
+#Outputting to a file
+with open("London_Statistical_Outputs.txt", "w") as data_file:
+    data_file.write("The mean monthly house price in London city between 1994 and 2018 is: £" + str(mean) +"\n")
+    data_file.write("The maximum monthly house price is £" + str(maximum) + " in " + area[date_var_for_max] + " on " + date[date_var_for_max] + "\n")
+    data_file.write("The minimum monthly house price is £" + str(minimum) + " in " + area[date_var_for_min] + " on " + date[date_var_for_min] + "\n")
+    data_file.write("The mode monthly house price is £" + str(mode) + " occuring " + str(max_value) + " times \n")
+    for i in range(1, max_value + 1):
+        data_file.write(str(mode_list.count(i)) + " numbers occured " + str(i) + " times \n")
+    data_file.write("The median monthly house price is £" + str(median) + "\n")
+    data_file.write("The Standard Deviation: £" + str(std_dev) + "\n")
+
+#Opening statement of program
+user_i = ""
+print("The analysis is being prepared on the variable average house price.")
+print("Please enter 1 for mean")
+print("Please enter 2 for maximum")
+print("Please enter 3 for minimum")
+print("Please enter 4 for mode")
+print("Please enter 5 for median")
+print("Please enter 6 for standard deviation")
+print("")
+
+while user_i != "q":
+    
+    print("")
+    print("Enter m to see the analysis menu again. ")
+    user_i = input("What analysis are you looking for? ")
+    if user_i == "q":
+        break
+    elif user_i == "1":
+        print(f"The mean monthly house price in London city between 1994 and 2018 is: £{mean:.2f}")
+    elif user_i == "2":
+        print(f"The maximum monthly house price is £{maximum:.2f} in {area[date_var_for_max]} on {date[date_var_for_max]}")
+    elif user_i == "3":
+        print(f"The minimum monthly house price is £{minimum:.2f} in {area[date_var_for_min]} on {date[date_var_for_min]}")
+    elif user_i == "4":
+        print(f"The mode monthly house price is £{mode} occuring {max_value} times")
+        for i in range(1, max_value + 1):
+            print(f"{mode_list.count(i)} numbers occured {i} times") 
+    elif user_i == "5":
+        print(f"The median monthly house price is £{median}")
+    elif user_i == "6":
+        print(f"The Standard Deviation: £{std_dev:.1f} ")    
+    elif user_i == "m":
+        print("The analysis is being prepared on the variable mean house price.")
+        print("Please enter 1 for mean")
+        print("Please enter 2 for maximum")
+        print("Please enter 3 for minimum")
+        print("Please enter 4 for mode")
+        print("Please enter 5 for median")
+        print("Please enter 6 for standard deviation")
+    else:
+        print("Invalid input please input another choice or enter q to quit.")
+    user_i = ""
 
 
 

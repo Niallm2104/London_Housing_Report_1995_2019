@@ -1,0 +1,10 @@
+The mean monthly house price in London city between 1994 and 2018 is: £286471.35
+The maximum monthly house price is £1463378.0 in kensington and chelsea on 2018-01-01
+The minimum monthly house price is £50460.0 in barking and dagenham on 1995-01-01
+The mode monthly house price is £71070.0 occuring 4 times 
+9292 numbers occured 1 times 
+105 numbers occured 2 times 
+0 numbers occured 3 times 
+1 numbers occured 4 times 
+The median monthly house price is £245034.0
+The Standard Deviation: £193168.17
