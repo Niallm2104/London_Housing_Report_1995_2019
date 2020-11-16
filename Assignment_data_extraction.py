@@ -291,15 +291,19 @@ std_dev = sqrt(sum(deviations)/(len(temp_list) - 1))
 std_dev = round(std_dev, 2)
 
 #Outputting to a file
-with open("London_Statistical_Outputs.txt", "w") as data_file:
-    data_file.write("The mean monthly house price in London city between 1994 and 2018 is: £" + str(mean) +"\n")
-    data_file.write("The maximum monthly house price is £" + str(maximum) + " in " + area[date_var_for_max] + " on " + date[date_var_for_max] + "\n")
-    data_file.write("The minimum monthly house price is £" + str(minimum) + " in " + area[date_var_for_min] + " on " + date[date_var_for_min] + "\n")
-    data_file.write("The mode monthly house price is £" + str(mode) + " occuring " + str(max_value) + " times \n")
-    for i in range(1, max_value + 1):
-        data_file.write(str(mode_list.count(i)) + " numbers occured " + str(i) + " times \n")
-    data_file.write("The median monthly house price is £" + str(median) + "\n")
-    data_file.write("The Standard Deviation: £" + str(std_dev) + "\n")
+try:
+    fName = "London_Statistical_Outputs.txt"   
+    with open(fName, "w") as data_file:
+        data_file.write("The mean monthly house price in London city between 1994 and 2018 is: £" + str(mean) +"\n")
+        data_file.write("The maximum monthly house price is £" + str(maximum) + " in " + area[date_var_for_max] + " on " + date[date_var_for_max] + "\n")
+        data_file.write("The minimum monthly house price is £" + str(minimum) + " in " + area[date_var_for_min] + " on " + date[date_var_for_min] + "\n")
+        data_file.write("The mode monthly house price is £" + str(mode) + " occuring " + str(max_value) + " times \n")
+        for i in range(1, max_value + 1):
+            data_file.write(str(mode_list.count(i)) + " numbers occured " + str(i) + " times \n")
+        data_file.write("The median monthly house price is £" + str(median) + "\n")
+        data_file.write("The Standard Deviation: £" + str(std_dev) + "\n")
+except IOError:
+    print("Could not read file: " + fName)
 
 #Opening statement of program
 user_i = ""
@@ -316,6 +320,7 @@ while user_i != "q":
     
     print("")
     print("Enter m to see the analysis menu again. ")
+    print("Enter q to to end.")
     user_i = input("What analysis are you looking for? ")
     if user_i == "q":
         break
